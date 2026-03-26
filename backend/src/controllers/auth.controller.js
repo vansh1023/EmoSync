@@ -70,7 +70,7 @@ async function loginUserController(req, res) {
             {email},
             {password}
         ]
-    }) 
+    }).select("+password")
 
     if(!user){
         return res.status(401).json({
@@ -112,7 +112,26 @@ async function loginUserController(req, res) {
 
 
 
+
+
+// Get User Controller
+async function getMeUserController(req, res) {
+    const userId = req.user.id
+
+    const user = await userModel.findById(userId)
+
+    return res.status(200).json({
+        message: "User fetched successfully",
+        user    
+    })
+}
+
+
+
+
+
 module.exports = {
     registerUserController,
-    loginUserController
+    loginUserController,
+    getMeUserController
 }
