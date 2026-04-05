@@ -8,7 +8,7 @@ const connectToDB = require('./src/config/database.js')
 connectToDB()
 
 
-
-app.listen(process.env.Port, () => {
-    console.log(`Server is running on Port: ${process.env.Port}`)
+const port = process.env.Port || 3000
+app.listen(port, () => {
+    console.log(`Server is running on Port: ${port}`)
 })

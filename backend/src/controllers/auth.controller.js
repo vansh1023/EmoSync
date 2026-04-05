@@ -2,6 +2,7 @@ const express = require('express')
 const userModel = require('../models/user.model.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const redis = require('../config/cache.js')
 
 
 
@@ -130,8 +131,30 @@ async function getMeUserController(req, res) {
 
 
 
+
+
+
+
+// Log Out controller
+async function logoutUserController(req, res){
+    const token = req.cookies.token
+
+    res.clearCookie('token')
+
+    await redis.set(token, Date.now().toString(), "EX", 60*60)
+
+    res.status(200).json({
+        message: "User logout successfully"
+    })
+}
+
+
+
+
+
 module.exports = {
     registerUserController,
     loginUserController,
-    getMeUserController
+    getMeUserController,
+    logoutUserController
 }
